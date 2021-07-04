@@ -16,6 +16,11 @@ candidate_options = []
 # Declare empty dictionary
 candidate_votes = {}
 
+# Winning Candidate and Winning Count Tracker
+winning_candidate = ""
+winning_count = 0
+winning_percentage = 0
+
 #Open the election results and read the file.
 with open(file_to_load) as election_data:
 
@@ -43,6 +48,9 @@ with open(file_to_load) as election_data:
         # Add a vote to that candidate's count
         candidate_votes[candidate_name] += 1
 
+
+
+
 #Determine vote percentage
 #Iterate through the candidate list
 for candidate_name in candidate_votes:
@@ -50,18 +58,28 @@ for candidate_name in candidate_votes:
     votes = candidate_votes[candidate_name]
     #Calculate pct of votes
     vote_percentage = float(votes) / float(total_votes) * 100
-    #Print the candidate's name with pct of vote
-    print(f"{candidate_name}: received {vote_percentage:.2f}% of the vote.")
+    #To do: print out each candidate's name, vote count, and pct of votes to the terminal
+    print(f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
+    #Determine winning vote count and candidate
+    #Determine if the votes are greater than the winning count
+    if (votes > winning_count) and (vote_percentage > winning_percentage):
+        #set winning count=votes and winning pct=vote percentage
+        winning_count = votes
+        winning_percentage = vote_percentage
+        #Set the winning candidate equal to the candidate's name
+        winning_candidate = candidate_name
+winning_candidate_summary = (
+    f"-------------------------\n"
+    f"Winner: {winning_candidate}\n"
+    f"Winning Vote Count: {winning_count:,}\n"
+    f"Winning Percentage: {winning_percentage:.1f}%\n"
+    f"-------------------------\n")
+        
+print(winning_candidate_summary)
 
 
-# Print the candidate vote dictionary
-print(candidate_votes)
 
-# Print the candidate list
-print(candidate_options)
 
-# Print the total votes
-print(total_votes)
 
 
 
@@ -78,14 +96,4 @@ with open(file_to_save, "w") as txt_file:
 
     #Write three counties to the file, with an underlined header.
     txt_file.write("Counties in the Election\n-------------------------\nArapahoe\nDenver\nJefferson")
-    
-
-
-    
-
-
-
-
-# 3. The percentage of votes each candidate won
-
-# 5. The winner of the election based on popular vote.
+ 
